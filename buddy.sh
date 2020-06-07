@@ -18,7 +18,7 @@ while [ $counter -lt 1 ]; do
 
 #create Table unsed blocks
   block_arr=(1024 512 256 128 64 32)
-  
+  echo "${block_arr[2]}"
   for i in "${block_arr[@]}"
   do
     echo $i
