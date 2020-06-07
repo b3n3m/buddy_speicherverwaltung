@@ -21,15 +21,9 @@ struct buddy_system
 		}
 		//index = start bucket, für korrekten exponent der zweierpotenz
 		const int index = expo - min_exp;
-		if (free_buddy[index]!=0)
-		{
-			const int result = free_buddy[index];
-			free_buddy[index]=0;
-			return result;			
-		}
 		//wenn größerer exponent gefunden, split notwendig
 		int split_index = 0;
-		for (int i = index + 1 ; i <= max_exp - min_exp; ++i)
+		for (int i = index; i <= max_exp - min_exp; ++i)
 		{
 			if (free_buddy[i] != 0)
 				{
@@ -43,10 +37,10 @@ struct buddy_system
 		}
 		const int result = free_buddy[split_index];
 		free_buddy[split_index] = 0;
-		//
+		//nächst niedriger ex, split
 		for (int i = split_index-1; i >= index; --i)
 		{
-			//1+2⁹
+			//1+2⁹, shift nach links (bsp. 0011 -> 0110)
 			free_buddy[i] = result + (1<<(min_exp + i));
 		}
 		return result;
@@ -76,4 +70,9 @@ int main (){
 	cout << "var.allocate(7) = " << first << "\n" << var;
 	first = var.allocate(8);
 	cout << "var.allocate(8) = " << first << "\n" << var;
+	first = var.allocate(9);
+	cout << "var.allocate(9) = " << first << "\n" << var;
+	first = var.allocate(6);
+	cout << "var.allocate(6) = " << first << "\n" << var;
+
 }
