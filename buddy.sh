@@ -1,6 +1,6 @@
 #!/bin/bash
 
-total_mem=1000000
+total_mem=1000000000
 min_exp=6
 (( temp_mem = total_mem - 1 ))
 max_exp=$(echo "l($temp_mem)/l(2)" | bc -l)
@@ -175,9 +175,6 @@ done
 	#set basepointer
 	fb_arr=("${fb_arr[@]}" 0)
 #	"Virtual Memory" as Array
-for (( i = 0; i < $total_mem; i++ )); do
-	mem_arr[i]=0
-done
 	#set basepointer in 
 	mem_arr[0]=-1
 
@@ -191,5 +188,3 @@ allocate 127
 allocate 128
 
 free 257
-
-#echo $(is_buddy 256 384 7) 
