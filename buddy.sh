@@ -1,51 +1,96 @@
 #!/bin/bash
-total_mem=1024
-largest_mem=$total_mem
-temp_mem=$total_mem
 
-counter=0
+readonly total_mem=1024
+readonly min_exp=6
+readonly max_exp=10
 
-while [ $counter -lt 1 ]; do
+view(){
+for i in "${fb_arr[@]}"
+	do
+    	printf "%d\t" $i
+    done 
 
-    #request=$(($RANDOM % ${total_mem}))
-    request=$1
-    echo "$request - request_$counter"
+  echo -e "\n_____________________________\n"
+}
 
-    if [[ $request -gt $total_mem ]]; then
-      echo "Fehler, kein Speicher Verfügbar"
-      exit 1
-    fi
+#allocation function
+allocate(){
 
-#create Table unsed blocks
-  block_arr=(1024 512 256 128 64 32)
-  echo "${block_arr[2]}"
-  for i in "${block_arr[@]}"
-  do
-    echo $i
-   done 
+echo "$1"
 
+if [[ $1 = help ]]; then
+	echo "allocate alozierender_Speicher"
+fi
+#check if requested size is bigger or lower then min/max adressable space
+if [[ ${max_exp} -lt $1 || $1 -lt ${min_exp} ]]; then
+	echo "Speicheranforderung zu groß oder zu klein"
+fi
+#define exponent in arr
+index=$(( $1 - ${min_exp} ))
+split_index=0
+#ist buddy in der entsprechenden Größe vorhanden
+for (( i = ${index}; i <= ${max_exp}-${min_exp}; ++i )); do
+	if [[ ${fb_arr[i]} != -1 ]]; then
+		split_index=$i
+		break
+	fi
+done
+#prüfen ob genug Speicher Verfügbar
+if [[ ${split_index} == 0 ]]; then
+	echo "No Space left"
+fi
 
-#Check for next higher power
-    power=2
-    while [[ $request -ge $power ]]; do
+result=${fb_arr[${split_index}]}
+fb_arr[${split_index}]=-1
 
-    power=$(( $power*2 ))
-    done
-    echo "Nächst höhere 2er Potenz ist $power"
+#nächst niedriger exponent, split
+for (( i = ${split_index}-1; $i >= $index; --i )); do
+#1+2⁹, shift nach links (bsp. 0011 -> 0110)
+	fb_arr[${i}]=$(( ${result} + $(( 1 << $(( ${min_exp} + ${i} )) )) ))
+done
 
-#Search for current splitted blocks
+view
 
+}
 
-#Split and Check needed Blocksize if not existing    
-    while [[ $temp_mem/2 -ge $request ]]; do
-      temp_mem=$(( $temp_mem/2 ))
-    done
+free(){
+#$1=Start_Adress; $2=size/expo
+index=$(( $2 - ${min_exp} ))
+while [[ true ]]; do
+	#comparable value for buddys
+	buddy_mask=$(( << $(($index+$min_exp)) ))
 
-    echo  "größt möglicher speichblock nach zuweisung $largest_mem"
+	for (( i = ${fb_arr[${index}]}; i < 10; i++ )); do
+		echo "Hello Wprld"
+	done
 
-
-    echo "$request wurden in einen Block $temp_mem abgelegt"
-
-    (( counter++ ))
 
 done
+
+
+}
+
+#MAIN FUNCTION
+#initialize Meta Free Buddy Meta Array
+for (( i = 0; i < max_exp-min_exp; ++i )); do
+	#fb_arr= Free Buddy Meta Data Array
+	#fill with invlaid value "-1"; invalid = not free
+	fb_arr=("${fb_arr[@]}" -1)
+done
+	#set basepointer
+	fb_arr=("${fb_arr[@]}" 0)
+
+view
+
+allocate 8
+echo $result " -result"
+
+allocate 7
+echo $result " - result"
+
+printf "%011d\n" $(echo "obase=2; 256" | bc )
+
+
+#free 256 128
+
+
