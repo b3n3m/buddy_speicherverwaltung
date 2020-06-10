@@ -34,4 +34,16 @@
 	echo "Potenz: $(( $temp+2 ))"
 	echo "Frei: ${arr[${temp}]}"
 
-	read -sdr -p "Whats your name?\n"
+	#read -sdr -p "Whats your name?\n"
+
+  #test_arr["markus"]="jena"
+  #test_arr["bene"]="ffm"
+
+  test_arr=( ["markus"]="jena" ["bene"]="ffm")
+
+  for i in "${test_arr[@]}"
+  do
+    echo $i
+   done 
+
+   echo "${test_arr["markus"]}"
