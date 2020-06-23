@@ -75,7 +75,7 @@ if [[ $action == "s" ]]; then view; fi
 
 
 ##########################################################################
-# buddy checking fuction
+# buddy checking function
 is_buddy(){
 
 	# $1=compare Startaddress 1 / $2=compare Startaddress 2 / $3=size freed buddy
@@ -187,7 +187,7 @@ view
 view(){
 
 echo -e "\033[7mInfo  \033[0m  \c" 
-# check if logging optin is enabled
+# check if logging option is enabled
 if [[ $1 == "-l" ]]; then
 	echo -e "$message" | tee -a log
 else 
@@ -213,7 +213,7 @@ fi
     	
     done 
 
-echo -e "_____________________________\nChart (#-used Space // I-Splitpoint)\n"
+echo -e "_____________________________\nChart (#-used Space // |-Splitpoint)\n"
 chart
 echo -e "\nActual summerized free Space: $actual_mem\n\n"
 }
@@ -222,6 +222,7 @@ echo -e "\nActual summerized free Space: $actual_mem\n\n"
 ##########################################################################
 # chart function
 chart(){
+
 	chart_arr[64]="|"
 	for (( i = 0; i < 64; i++ )); do
 		chart_arr[i]="\033[7m \033[0m"
@@ -264,6 +265,7 @@ chart(){
 ##########################################################################
 # initialize / Reset all Array Information
 init_arrays(){
+
 # delte variables/arrs
 unset fb_arr
 unset mem_arr
@@ -287,6 +289,7 @@ else
 message="Init: Total Memory $total_mem Byte - Date $(date '+%Y-%m-%d %H:%M:%S')"
 fi
 }
+
 
 ##########################################################################
 ##########################################################################
