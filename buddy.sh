@@ -4,10 +4,10 @@
 #                                                                                           #
 # This shell script represents a simulation of a Budyy Allocation System.                   #
 # Authors: Benedikt Möller (benedikt.moeller@stud.fra-uas.de)                               #
-#          Florijan Ajvazi (florian.ajvazi@stud.fra-uas.de)                                 #
+#          Florijan Ajvazi (florijan.ajvazi@stud.fra-uas.de)                                 #
 #          Supported by lyrahgames (https://github.com/lyrahgames)                          #
 #                                                                                           #
-# Copyright (c) 2020-2020 Benedikt Möller, Florijan Ajvazi  All Rights Reserved. 			#
+# Copyright (c) 2020-2020 Benedikt Möller, Florijan Ajvazi  All Rights Reserved.            #
 #                                                                                           #
 #############################################################################################
 
